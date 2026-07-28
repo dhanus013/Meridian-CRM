@@ -7,15 +7,7 @@ A lightweight CRM for managing companies and contacts — built as a hands-on AW
 ![MySQL](https://img.shields.io/badge/AWS%20RDS-MySQL-4479A1?logo=mysql&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind%20CSS-CDN-38B2AC?logo=tailwindcss&logoColor=white)
 
-## Screenshots
 
-**Companies**
-![Companies view](docs/screenshots/companies.png)
-
-**Contacts**
-![Contacts view](docs/screenshots/contacts.png)
-
-*(Add your screenshots to `docs/screenshots/` and update the paths above, or drop them straight into this section.)*
 
 ## Features
 
