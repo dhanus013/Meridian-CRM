@@ -1,0 +1,55 @@
+/* Meridian CRM — custom accents layered on top of Tailwind utilities */
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-data {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Sidebar nav item styled like a filing-drawer tab: the active item's
+   right edge is notched inward, as if the tab is pulled forward. */
+.nav-tab {
+  position: relative;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%);
+}
+
+/* Decorative "hole punch" pair used on card headers, evoking a card-catalog index card */
+.punch-holes::before,
+.punch-holes::after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: var(--paper, #F6F5F1);
+  border: 1px solid #D8D3C8;
+}
+.punch-holes::before { left: 14px; }
+.punch-holes::after { right: 14px; }
+
+/* Ledger-style row divider (thin dashed rule between records) */
+.ledger-row {
+  border-bottom: 1px dashed #E1DED5;
+}
+.ledger-row:last-child {
+  border-bottom: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9C4B6;
+  border-radius: 9999px;
+}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meridian CRM — Companies</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#F6F5F1] text-[#1C2333] min-h-screen">
+
+  <div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-60 shrink-0 bg-[#1C2333] text-[#DADFE6] flex flex-col">
+      <div class="px-6 py-6 border-b border-white/10">
+        <p class="font-display text-lg font-700 text-white tracking-tight">Meridian</p>
+        <p class="text-[11px] uppercase tracking-[0.2em] text-[#8A93A6]">CRM Ledger</p>
+      </div>
+      <nav class="flex-1 px-3 py-6 space-y-1">
+        <a href="index.html" class="nav-tab flex items-center gap-3 px-4 py-2.5 bg-[#0F5C56] text-white font-medium text-sm">
+          <span>Companies</span>
+        </a>
+        <a href="contacts.html" class="nav-tab flex items-center gap-3 px-4 py-2.5 hover:bg-white/5 text-sm text-[#C4CAD6]">
+          <span>Contacts</span>
+        </a>
+      </nav>
+      <div class="px-6 py-5 border-t border-white/10 text-[11px] text-[#6E778A]">
+        Backed by AWS RDS (MySQL)
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 flex flex-col">
+
+      <!-- Top bar -->
+      <header class="flex items-center justify-between px-8 py-5 border-b border-[#E1DED5] bg-[#F6F5F1]/95 sticky top-0 backdrop-blur z-10">
+        <div>
+          <h1 class="font-display text-xl font-600">Companies</h1>
+          <p class="text-sm text-[#6E778A]">Every organization in your book of business</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <input id="searchInput" type="text" placeholder="Search companies…"
+              class="w-64 pl-9 pr-3 py-2 rounded-md border border-[#D8D3C8] bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[#0F5C56]/30 focus:border-[#0F5C56]">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#9AA1AF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <button onclick="openCreateModal()" class="px-4 py-2 rounded-md bg-[#0F5C56] text-white text-sm font-medium hover:bg-[#0C4C47] transition">
+            + New company
+          </button>
+        </div>
+      </header>
+
+      <!-- Stats -->
+      <section class="grid grid-cols-3 gap-4 px-8 pt-6">
+        <div class="bg-white border border-[#E1DED5] rounded-md px-5 py-4">
+          <p class="text-[11px] uppercase tracking-widest text-[#9AA1AF]">Total companies</p>
+          <p id="statCompanies" class="font-display text-2xl font-600 mt-1">—</p>
+        </div>
+        <div class="bg-white border border-[#E1DED5] rounded-md px-5 py-4">
+          <p class="text-[11px] uppercase tracking-widest text-[#9AA1AF]">Total contacts</p>
+          <p id="statContacts" class="font-display text-2xl font-600 mt-1">—</p>
+        </div>
+        <div class="bg-white border border-[#E1DED5] rounded-md px-5 py-4">
+          <p class="text-[11px] uppercase tracking-widest text-[#9AA1AF]">Industries represented</p>
+          <p id="statIndustries" class="font-display text-2xl font-600 mt-1">—</p>
+        </div>
+      </section>
+
+      <!-- Table -->
+      <section class="px-8 py-6 flex-1">
+        <div class="bg-white border border-[#E1DED5] rounded-md overflow-hidden">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-[11px] uppercase tracking-widest text-[#9AA1AF] border-b border-[#E1DED5]">
+                <th class="px-5 py-3 font-medium">Company</th>
+                <th class="px-5 py-3 font-medium">Industry</th>
+                <th class="px-5 py-3 font-medium">Website</th>
+                <th class="px-5 py-3 font-medium">Phone</th>
+                <th class="px-5 py-3 font-medium text-center">Contacts</th>
+                <th class="px-5 py-3 font-medium text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="companiesBody">
+              <!-- rows injected by companies.js -->
+            </tbody>
+          </table>
+          <div id="emptyState" class="hidden px-5 py-14 text-center text-[#9AA1AF] text-sm">
+            No companies yet. Add your first one to start the ledger.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Create/Edit Modal -->
+  <div id="companyModal" class="hidden opacity-0 fixed inset-0 bg-[#1C2333]/40 flex items-center justify-center z-40 transition-opacity duration-150">
+    <div class="punch-holes relative bg-white w-full max-w-md rounded-md border border-[#D8D3C8] shadow-xl px-6 pt-10 pb-6">
+      <h2 id="modalTitle" class="font-display text-lg font-600 mb-4">New company</h2>
+      <form id="companyForm" class="space-y-3">
+        <input type="hidden" id="companyId">
+        <div>
+          <label class="text-xs uppercase tracking-wide text-[#9AA1AF]">Name *</label>
+          <input id="fName" required class="mt-1 w-full px-3 py-2 rounded-md border border-[#D8D3C8] text-sm focus:outline-none focus:ring-2 focus:ring-[#0F5C56]/30">
+        </div>
+        <div>
+          <label class="text-xs uppercase tracking-wide text-[#9AA1AF]">Industry</label>
+          <input id="fIndustry" class="mt-1 w-full px-3 py-2 rounded-md border border-[#D8D3C8] text-sm focus:outline-none focus:ring-2 focus:ring-[#0F5C56]/30">
+        </div>
+        <div>
+          <label class="text-xs uppercase tracking-wide text-[#9AA1AF]">Website</label>
+          <input id="fWebsite" class="mt-1 w-full px-3 py-2 rounded-md border border-[#D8D3C8] text-sm focus:outline-none focus:ring-2 focus:ring-[#0F5C56]/30">
+        </div>
+        <div>
+          <label class="text-xs uppercase tracking-wide text-[#9AA1AF]">Phone</label>
+          <input id="fPhone" class="mt-1 w-full px-3 py-2 rounded-md border border-[#D8D3C8] text-sm focus:outline-none focus:ring-2 focus:ring-[#0F5C56]/30">
+        </div>
+        <div>
+          <label class="text-xs uppercase tracking-wide text-[#9AA1AF]">Address</label>
+          <input id="fAddress" class="mt-1 w-full px-3 py-2 rounded-md border border-[#D8D3C8] text-sm focus:outline-none focus:ring-2 focus:ring-[#0F5C56]/30">
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('companyModal')" class="px-4 py-2 rounded-md text-sm font-medium text-[#6E778A] hover:bg-[#F6F5F1]">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-md bg-[#0F5C56] text-white text-sm font-medium hover:bg-[#0C4C47]">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete confirm -->
+  <div id="deleteModal" class="hidden opacity-0 fixed inset-0 bg-[#1C2333]/40 flex items-center justify-center z-40 transition-opacity duration-150">
+    <div class="bg-white w-full max-w-sm rounded-md border border-[#D8D3C8] shadow-xl px-6 py-6">
+      <h2 class="font-display text-lg font-600 mb-2">Remove company?</h2>
+      <p class="text-sm text-[#6E778A] mb-4">This can't be undone. Contacts linked to it will stay, unlinked from any company.</p>
+      <div class="flex justify-end gap-2">
+        <button onclick="closeModal('deleteModal')" class="px-4 py-2 rounded-md text-sm font-medium text-[#6E778A] hover:bg-[#F6F5F1]">Cancel</button>
+        <button id="confirmDeleteBtn" class="px-4 py-2 rounded-md bg-rose-700 text-white text-sm font-medium hover:bg-rose-800">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden fixed bottom-6 right-6 px-4 py-3 rounded-md shadow-lg text-sm font-medium z-50"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+  <script src="companies.js"></script>
+</body>
+</html>
